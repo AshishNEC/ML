@@ -1,6 +1,5 @@
 """Exercise description"""
 
-
 """ Error: will return after analyzing 1st character of string """
 
 
@@ -24,7 +23,7 @@ def any_lowercase2(s):
             return 'False'
 
 
-""" No error: will work, flag needs to be declared """
+""" Error: as it will check only last character """
 
 
 def any_lowercase3(s):
@@ -43,11 +42,12 @@ def any_lowercase4(s):
     return flag
 
 
-""" Error: Returns from 1st character """
+""" Error: will check reverse condition and return after 1st capital letter comes """
 
 
 def any_lowercase5(s):
     for c in s:
+        print("char is :", c)
         if not c.islower():
-            return False
-    return True
+            return 'No'
+    return 'Yes'
