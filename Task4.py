@@ -9,19 +9,32 @@ import Task3 as task3
 
 class Task4:
     def __init__(self):
-        self.extract_df = task3.import_csv_to_df()
+        self.extract_df = task3.import_csv_to_df('housing.csv')
         self.column_names = list(self.extract_df.columns.values)
 
+    """ Function to validate column name """
+
+    def validate_column(self, column_name):
+        if column_name not in self.column_names:
+            return False
+        return True
+
     """ Function to get districts in csv """
+
     def get_number_of_districts(self):
         print(f'Number of districts :', self.extract_df.shape[0])
 
-    """ Function to get house value mean(using customized mean of task1) """
-    def get_csv_column_mean(self, analysis_data):
-        df_list = self.extract_df[analysis_data].astype(float)
-        print(f'Mean of ' + analysis_data + ' :', task1.customized_mean(df_list))
+    """ Function to get mean of any csv column (using customized mean of task1) """
+
+    def get_csv_column_mean(self, analyze_data_column):
+        if not self.validate_column(analyze_data_column):
+            print("invalid column ", analyze_data_column)
+            return False
+        df_list = self.extract_df[analyze_data_column].astype(float)
+        print(f'Mean of ' + analyze_data_column + ' :', task1.customized_mean(df_list))
 
     """ Function to plot histogram """
+
     def plot_histogram(self, column_list):
         for column in column_list:
             self.extract_df[column].astype(float).hist(bins=50)
@@ -31,15 +44,16 @@ class Task4:
             plt.show()
 
     """ Function to evaluate ocean proximity mean """
-    def ocean_proximity_mean(self, analysis_data1, analysis_data2):
+
+    def ocean_proximity_mean(self, analyze_data_column1, analyze_data_column2):
         column_name_list = []
         opm_value_list = []
 
-        df_list = self.extract_df.groupby(analysis_data1)[analysis_data2].apply(list).reset_index(name=analysis_data2)
+        df_list = self.extract_df.groupby(analyze_data_column1)[analyze_data_column2].apply(list).reset_index(name=analyze_data_column2)
 
         for num in range(df_list.shape[0]):
-            opm_value_list.append(task1.customized_mean(pd.to_numeric(df_list[analysis_data2][num], downcast='float')))
-            column_name_list.append(str(df_list[analysis_data1][num]))
+            opm_value_list.append(task1.customized_mean(pd.to_numeric(df_list[analyze_data_column2][num], downcast='float')))
+            column_name_list.append(str(df_list[analyze_data_column1][num]))
 
         df_opm = pd.DataFrame({
             'Ocean_proximity': column_name_list,
@@ -67,8 +81,6 @@ def main():
     """ 4.Additional Task:  For each ocean proximity category in the dataset calculate the mean house value."""
     task4_obj.ocean_proximity_mean('ocean_proximity', 'median_house_value')
 
-    task4_obj.get_column_heading()
 
 if __name__ == "__main__":
     main()
-
