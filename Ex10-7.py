@@ -7,11 +7,10 @@ def has_duplicates(investigate_list):
     for x in investigate_list:
         if x not in temp_list:
             temp_list.append(x)
-
-    if len(investigate_list) != len(temp_list):
-        return 'Yes'
+        else:
+            return 'Yes'
     return 'No'
 
 
-test_list = [1, 2, 3, 4, 5, 6, 1]
+test_list = [1, 2, 3, 4, 5, 6]
 print("Does list contain duplicates: ", has_duplicates(test_list))
